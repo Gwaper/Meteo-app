@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import Weather from './Components/Weather/Weather.js';
 import './App.css';
+
+// api key =Lr3ObC0eujsbAP6umk4PifdWhSrmPHcG 
 
 class App extends Component {
   render() {
@@ -8,10 +11,8 @@ class App extends Component {
         <div className="App-header">
          
           <h2>Meteo-App</h2>
-        </div>
-        <p className="App-intro">
-          
-        </p>
+          <Weather/>
+        </div>  
       </div>
     );
   }
