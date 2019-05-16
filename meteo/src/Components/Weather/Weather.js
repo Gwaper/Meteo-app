@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import './Weather.css';
+import axios from 'axios';
 
 // let apiKey=e08cf8ebbd8b86614d89966944fdc934
+//  key accuweather= cvbBLx1FFQQXtKEgqU4o6KATicAkNsYn
 
-let day = da
+// let day = da
 class Weather extends Component {
     constructor() {
         super ();
@@ -15,7 +17,11 @@ class Weather extends Component {
             windspeed: 0,
             cityName: '',
             weatherDay:'',
-            weathericon:''
+            weathericon:'',
+            nexttemp:0,
+            nextWeatherDay:'',
+            nextWeatherIcon:''
+
         }
     }
 
@@ -26,35 +32,29 @@ class Weather extends Component {
                 long: succes.coords.longitude
             })
             
-            fetch(`https:api.openweathermap.org/data/2.5/weather?lat=${this.state.lat}&lon=${this.state.long}&appid=e08cf8ebbd8b86614d89966944fdc934`)
-            .then(res => res.json())
-            .then((res)=>{
-                this.setState({
-                    weatherDay: res.weather[0].main,
-                    cityName: res.name,
-                    temp: Math.round(res.main.temp-273.15),
-                    windspeed:res.wind.speed,
-                    humidity: res.main.humidity,
-                    weathericon: res.weather[0].icon
-
-
-                })
+            axios.get(`https:api.openweathermap.org/data/2.5/weather?lat=${this.state.lat}&lon=${this.state.long}&appid=ca7078392c7ff5f715685bc5444efe68`)
+            .then((res) =>{
                 console.log(res)
+                this.setState({
+                    weatherDay: res.data.weather[0].main,
+                    cityName: res.data.name,
+                    temp: Math.round(res.data.main.temp-273.15),
+                    windspeed:res.data.wind.speed,
+                    humidity: res.data.main.humidity,
+                    weathericon: res.data.weather[0].icon,
+                    nextWeatherDay:res.data.weather[1].main
+                })
+                
             })
-                
-                
-
         }, (error)=>{
             console.log('error')
-
         }
-        
         )
     }
     // let tempCelsius= (`${this.state.temp}-32)*(5/9`)
     render(){
         return(
-            <div>
+            <div className='bgpage'>
                 <h1>Meteo of the day</h1>
                 <div className='bg_day1'>
                 <div className='localisation'>
@@ -71,6 +71,7 @@ class Weather extends Component {
                     <p className='secondary_info'>{this.state.humidity}</p>
                     <p className='secondary_info'>{this.state.windspeed}</p>
                     <p>manger des fibres de choux</p>
+                    <p>{this.state.nextWeatherDay}</p>
                 </div>
             </div>
         )
